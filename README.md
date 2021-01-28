@@ -1,4 +1,4 @@
-# Healthagram
+# VaxU
 
 A complete vaccination solution against Covid19.<br>
 *Official submission for Codebreak 2.0*
