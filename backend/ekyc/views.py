@@ -17,7 +17,7 @@ import datetime
 from django.contrib.auth import get_user_model
 from .serializers import *
 from .models import *
-from . import taadhar
+from ekyc.adhaar import *
 
 # Create your views here.
 
@@ -33,14 +33,27 @@ class KYCFormView(APIView):
         },
     )
     def post(self, request):
-        print(request.body)
         serializer = KYCFormSerializer(data=request.data)
         if serializer.is_valid():
+            # Run function 
             ekyc = serializer.save(request=request)
             path = ekyc.adhaar_image.url
-            return Response({
-                "message" : "KYC Application saved",
-            }, status.HTTP_201_CREATED)
+            adhaarnumber = extracting_uid(path)     
+            #if valid then save else refill
+            if adhaarnumber == ekyc.adhaar_number:
+                print("here")
+                user = NormalUser.objects.get(email = request.user.normaluser.email)
+                user.applied_for_vaccination = True
+                user.save()
+                return Response({
+                    "message" : "KYC Application saved",
+                }, status.HTTP_201_CREATED)
+            else:
+                ekyc.delete()
+                return Response({
+                    "message" : "Adhaar number not matched"
+                },status.HTTP_400_BAD_REQUEST)
         else:
             data = serializer.errors
+            print(data)
             return Response(data, status.HTTP_406_NOT_ACCEPTABLE)
