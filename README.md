@@ -1,7 +1,7 @@
-# VaxU
+<p align="center">
+  <img  src="https://github.com/sahil9001/VaxU_Codebreak_2.0/blob/main/VaxU.png">
+</p>
 
-A complete vaccination solution against Covid19.<br>
-*Official submission for Codebreak 2.0*
 
 ## Overview
 
