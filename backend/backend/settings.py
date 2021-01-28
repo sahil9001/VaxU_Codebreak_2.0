@@ -29,6 +29,24 @@ ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'users.User'
 
+SWAGGER_SETTINGS = {
+    'DEFAULT_MODEL_RENDERING': 'example',
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    'USE_SESSION_AUTH': False,
+    'PERSIST_AUTH': True
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
 # Application definition
 
 INSTALLED_APPS = [
