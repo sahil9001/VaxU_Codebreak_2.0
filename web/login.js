@@ -1,3 +1,6 @@
+$(document).ready(function(){
+    if(window.localStorage.getItem("token")!=null)    window.location.href = "./Dashboard.php";
+})
 $("#loginForm").submit(function(e){
     e.preventDefault();
     console.log("aaya");
