@@ -1,5 +1,6 @@
 <p align="center">
   <img  src="https://github.com/sahil9001/VaxU_Codebreak_2.0/blob/main/VaxU.png">
+  <img src="https://github.com/sahil9001/VaxU_Codebreak_2.0/web/snapshots/VaxU_1.png"
 </p>
 
 
