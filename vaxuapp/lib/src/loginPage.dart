@@ -238,6 +238,7 @@ class _LoginPageState extends State<LoginPage> {
                           key: Key("_password"),
                           decoration: InputDecoration(labelText: "Password"),
                           keyboardType: TextInputType.text,
+                          obscureText: true,
                           onSaved: (String value) {
                             _password = value;
                           },

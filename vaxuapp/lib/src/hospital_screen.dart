@@ -32,7 +32,7 @@ class VaccinatorsList {
 Future<VaccinatorsList> fetchVaccinators() async {
   String token = await User().getToken();
   final response = await http.get(
-    'http://${URL_HOST}:8000/api/users/vaccinators/',
+    'http://${URL_HOST}/api/users/vaccinators/',
     headers: {'accept': 'application/json', "Authorization": "$token"},
   );
   if (response.statusCode == 200) {
@@ -42,7 +42,7 @@ Future<VaccinatorsList> fetchVaccinators() async {
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    throw Exception('Failed to load album');
+    throw Exception('Failed to load hospitals');
   }
 }
 
@@ -128,10 +128,35 @@ class _HospitalScreenState extends State<HospitalScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Text(
+              "Centre name",
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: kTextMediumColor,
+                fontSize: 14,
+              ),
+            ),
             buildCaseNumber(
               context,
               data: key.center_name,
               percentage: "5.2",
+            ),
+            SizedBox(height: 15),
+            Text(
+              "Description",
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: kTextMediumColor,
+                fontSize: 14,
+              ),
+            ),
+            Text(
+              key.org_description,
+              style: TextStyle(
+                fontWeight: FontWeight.w200,
+                color: kTextMediumColor,
+                fontSize: 16,
+              ),
             ),
             SizedBox(height: 15),
             Text(
@@ -149,6 +174,10 @@ class _HospitalScreenState extends State<HospitalScreen> {
                 buildInfoTextWithBoolean(
                   availibility: key.is_available,
                   title: "Available",
+                ),
+                buildInfoTextWithPercentage(
+                  percentage: key.vaccines_available.toString(),
+                  title: "Vaccines Available",
                 ),
                 buildInfoTextWithPercentage(
                   percentage: key.price,

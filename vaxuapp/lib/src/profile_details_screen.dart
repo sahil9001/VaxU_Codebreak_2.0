@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 
 Future<UserInfo> fetchUserInfo() async {
   String token = await User().getToken();
-  final response = await http.get('http://${URL_HOST}:8000/api/users/info/',
+  final response = await http.get('http://${URL_HOST}/api/users/info/',
       headers: {'accept': 'application/json', "Authorization": "$token"});
   if (response.statusCode == 200) {
     return UserInfo.fromJson(jsonDecode(response.body));

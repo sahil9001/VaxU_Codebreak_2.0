@@ -33,7 +33,7 @@ class AppliedResponse {
 Future<AppliedResponse> fetchStatus() async {
   String token = await User().getToken();
   final response = await http.post(
-    'http://${URL_HOST}:8000/api/users/vaccinators/',
+    'http://${URL_HOST}/api/users/vaccinators/',
     headers: {'accept': 'application/json', "Authorization": "$token"},
   );
   if (response.statusCode == 200) {
@@ -47,10 +47,16 @@ Future<AppliedResponse> fetchStatus() async {
   }
 }
 
-Future<StreamedResponse> postEKYC(String firstname, String lastname, String gender, String date,
-    File adhaar_image, File image,String adhaar_number) async {
+Future<StreamedResponse> postEKYC(
+    String firstname,
+    String lastname,
+    String gender,
+    String date,
+    File adhaar_image,
+    File image,
+    String adhaar_number) async {
   String token = await User().getToken();
-  String uploadURL = "http://${URL_HOST}:8000/api/ekyc/register/";
+  String uploadURL = "http://${URL_HOST}/api/ekyc/register/";
   String filename = adhaar_image.path;
   String filename1 = image.path;
   var request = http.MultipartRequest('POST', Uri.parse(uploadURL));
@@ -364,13 +370,12 @@ class _KycScreenState extends State<KycScreen> {
       showInSnackBar('Please fix the errors in red before submitting.');
     } else {
       form.save();
-      var res = await postEKYC(
-          _firstname, _lastname, _gender, _date, _adhaar_image, _image, _adhaar_number);
+      var res = await postEKYC(_firstname, _lastname, _gender, _date,
+          _adhaar_image, _image, _adhaar_number);
       if ((_apiResponse.ApiError as ApiError) == null) {
-        if(res.statusCode==201)
+        if (res.statusCode == 201)
           showInSnackBar('Success');
-        else if(res.statusCode==400)
-          showInSnackBar('Refill the form');
+        else if (res.statusCode == 400) showInSnackBar('Refill the form');
       } else {
         showInSnackBar((_apiResponse.ApiError as ApiError).error);
       }
@@ -387,7 +392,7 @@ class _KycScreenState extends State<KycScreen> {
           color: kPrimaryColor,
         ),
         onPressed: () {
-          Navigator.of(context).pop(MaterialPageRoute(
+          Navigator.of(context).push(MaterialPageRoute(
               builder: (BuildContext context) => ProfileScreen()));
         },
       ),

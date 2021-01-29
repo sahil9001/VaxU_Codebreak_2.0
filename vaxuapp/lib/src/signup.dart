@@ -299,6 +299,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 onSaved: (String value) {
                                   _password = value;
                                 },
+                                obscureText: true,
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Password is required';

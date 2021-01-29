@@ -8,7 +8,7 @@ import 'package:vaxuapp/src/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-String _baseUrl = "http://${URL_HOST}:8000/";
+String _baseUrl = "http://${URL_HOST}/";
 Future<bool> setToken(String value) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.setString('token', value);

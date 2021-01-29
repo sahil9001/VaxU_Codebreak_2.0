@@ -22,7 +22,7 @@ class ApplyResponse {
 Future<ApplyResponse> fetchResponse() async {
   String token = await User().getToken();
   final response = await http.get(
-      'http://${URL_HOST}:8000/api/users/apply/check/',
+      'http://${URL_HOST}/api/users/apply/check/',
       headers: {'accept': 'application/json', "Authorization": "$token"});
   if (response.statusCode == 200) {
     return ApplyResponse.fromJson(jsonDecode(response.body));
