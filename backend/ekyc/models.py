@@ -18,7 +18,10 @@ class KYCInformation(models.Model):
     dob = models.DateField()
     gender = models.CharField(choices=GENDER_OPTIONS,
                               max_length=1, blank=False, null=False)
+    age = models.IntegerField(null=True)
     adhaar_image = models.ImageField(upload_to='uploads/ekyc/adhaar_image/')
+    hospital_id = models.CharField(null=True,max_length=100)
+    hospital_vacc = models.ForeignKey(VaccinationOrg,on_delete=models.CASCADE,null=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     

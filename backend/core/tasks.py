@@ -1,3 +1,4 @@
+from ekyc.models import KYCInformation
 from celery.task import periodic_task
 from celery.schedules import crontab
 from django.conf import settings
@@ -7,8 +8,7 @@ from core import models as core_models
 
 @periodic_task(run_every=crontab(minute=0, hour='0'))
 def assign_time_slots():
-    priortised_users_list = users_models.NormalUser.objects.filter(
-        applied_for_vaccination=True).order_by('-age')
+    priortised_users_list = KYCInformation.objects.all().order_by('-age')
     count = 0
     j = 0
     for user in priortised_users_list:
@@ -17,7 +17,7 @@ def assign_time_slots():
             count = 0
         count += 1
         appointment = core_models.Appointment()
-        appointment.patient = user
-        appointment.hospital = user.vaccinationcenter.centre_name
+        appointment.patient = user.user
+        appointment.hospital = user.hospital_vacc
         appointment.timeslot = j
         appointment.save()
