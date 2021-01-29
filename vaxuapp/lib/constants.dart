@@ -10,7 +10,7 @@ const kPrimaryColor = Color(0xFF0D8E53);
 const kBackgroundColor = Color(0xFFFCFCFC);
 const kInactiveChartColor = Color(0xFFEAECEF);
 
-const URL_HOST = '20.198.3.123:80';
+const URL_HOST = '192.168.1.4:8000';
 const kDarkPrimaryColor = Color(0xFF212121);
 const kDarkSecondaryColor = Color(0xFF373737);
 const kLightPrimaryColor = Color(0xFFFFFFFF);

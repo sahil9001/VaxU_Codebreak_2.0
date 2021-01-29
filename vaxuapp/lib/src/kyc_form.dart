@@ -21,6 +21,14 @@ import 'package:path/path.dart';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 
+class HospitalList {
+  String name;
+  String hospital_id;
+  HospitalList({
+    this.name,
+    this.hospital_id
+  });
+}
 class AppliedResponse {
   final bool applied_for_vaccination;
   AppliedResponse({this.applied_for_vaccination});
@@ -54,7 +62,8 @@ Future<StreamedResponse> postEKYC(
     String date,
     File adhaar_image,
     File image,
-    String adhaar_number) async {
+    String adhaar_number,
+    String hospital_id) async {
   String token = await User().getToken();
   String uploadURL = "http://${URL_HOST}/api/ekyc/register/";
   String filename = adhaar_image.path;
@@ -70,6 +79,7 @@ Future<StreamedResponse> postEKYC(
   request.fields["dob"] = date;
   request.fields["gender"] = gender;
   request.fields["adhaar_number"] = adhaar_number;
+  request.fields["hospital_id"] = hospital_id;
   //
   var res = await request.send();
   return res;
@@ -84,10 +94,54 @@ class _KycScreenState extends State<KycScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   var _genderItems = ['M', 'F'];
+  List<HospitalList> _hospitalItems = [
+    HospitalList(
+      hospital_id: "2",
+      name: "Balaji Hospital"
+    ),
+    HospitalList(
+      hospital_id: "3",
+      name: "Sarvodaya Hospital"
+    ),
+    HospitalList(
+      hospital_id: "4",
+      name: "Ambedkar Government Hospital"
+    ),
+    HospitalList(
+      hospital_id: "5",
+      name: "Krishna Hospital"
+    ),
+    HospitalList(
+      hospital_id: "6",
+      name: "Aryan Hospital"
+    ),
+    HospitalList(
+      hospital_id: "7",
+      name: "Sanjeeb Hospital"
+    ),
+    HospitalList(
+      hospital_id: "8",
+      name: "Sakshi Hospital"
+    ),
+    HospitalList(
+      hospital_id: "9",
+      name: "Kalyan Hospital"
+    ),
+    HospitalList(
+      hospital_id: "10",
+      name: "Suyash Hospital"
+    ),
+    HospitalList(
+      hospital_id: "11",
+      name: "Narayana Hospital"
+    ),
+  
+  ];
   ApiResponse _apiResponse = new ApiResponse();
   String _firstname = "";
   String _lastname = "";
   String _gender = 'M';
+  String _hospital_id = ""; 
   File _adhaar_image;
   File _image;
   Uri _adhaar_image_picked;
@@ -133,6 +187,11 @@ class _KycScreenState extends State<KycScreen> {
         print('No image selected.');
       }
     });
+  }
+ @override
+ void initState() {
+    super.initState();
+   _hospital_id = _hospitalItems[0].hospital_id;
   }
 
   @override
@@ -191,7 +250,7 @@ class _KycScreenState extends State<KycScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "Last Name",
+                        "Last Name (Should be official)",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15),
                       ),
@@ -253,7 +312,7 @@ class _KycScreenState extends State<KycScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "Date of Birth",
+                        "Date of Birth (YYYY-MM-DD)",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15),
                       ),
@@ -328,6 +387,54 @@ class _KycScreenState extends State<KycScreen> {
                   ),
                 ),
                 Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Hospital",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      FormField<String>(
+                        builder: (FormFieldState<String> state) {
+                          return InputDecorator(
+                            decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                    color: Colors.redAccent, fontSize: 16.0),
+                                errorStyle: TextStyle(
+                                    color: Colors.redAccent, fontSize: 16.0),
+                                hintText: 'Hospital',
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0))),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                value: _hospital_id,
+                                isDense: true,
+                                onChanged: (String newValue) {
+                                  setState(() {
+                                    _hospital_id = newValue;
+                                    state.didChange(newValue);
+                                  });
+                                },
+                                items: _hospitalItems.map((item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item.hospital_id,
+                                    child: Text(item.name),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
                   margin: EdgeInsets.symmetric(vertical: 100),
                   child: RaisedButton(
                     onPressed: _handleSubmit,
@@ -371,11 +478,11 @@ class _KycScreenState extends State<KycScreen> {
     } else {
       form.save();
       var res = await postEKYC(_firstname, _lastname, _gender, _date,
-          _adhaar_image, _image, _adhaar_number);
+          _adhaar_image, _image, _adhaar_number,_hospital_id);
       if ((_apiResponse.ApiError as ApiError) == null) {
         if (res.statusCode == 201)
           showInSnackBar('Success');
-        else if (res.statusCode == 400) showInSnackBar('Refill the form');
+        else if (res.statusCode == 400) showInSnackBar('Resubmit the adhaar card and proper details');
       } else {
         showInSnackBar((_apiResponse.ApiError as ApiError).error);
       }
