@@ -91,7 +91,7 @@ html {
 }
 
 .fh5co-hero-inner {
-  margin-top: 110px;
+  margin-top: 80px;
   position: relative;
 }
 .fh5co-hero-inner > h1 {
@@ -123,9 +123,9 @@ html {
   margin-left: 10px;
 }
 .fh5co-hero-inner .fh5co-hero-smartphone {
-  position: absolute;
-  right: 0px;
-  top: 120px;
+  
+  right: 50px;
+  top: 200px;
   height: 650px;
 }
 
@@ -587,9 +587,7 @@ html {
   }
 
   .fh5co-hero-inner .fh5co-hero-smartphone {
-    position: absolute;
-    right: 50px;
-    top: 200px;
+    top: 300px;
     height: 550px;
   }
 
