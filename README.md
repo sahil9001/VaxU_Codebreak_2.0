@@ -23,7 +23,7 @@ Our solution will help the health authorities for quick, secure and efficient va
 - Backend
   - Django
   - Django Rest
-
+  - Microsoft Azure
 ### App
   
 - Flutter
