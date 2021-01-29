@@ -37,5 +37,5 @@ $(document).ready(function(){
 });
 function logout(){
     window.localStorage.removeItem("token");
-    window.location.href("./login.php");
+    window.location.href= "./login.php";
 }
