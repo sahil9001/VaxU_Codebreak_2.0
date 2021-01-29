@@ -19,6 +19,25 @@ from .serializers import *
 from .models import *
 from ekyc.face_match import *
 # Create your views here.
+class VaccinatorInfoView(APIView):
+    permission_classes = [IsAuthenticated]
+    @swagger_auto_schema(
+        responses={
+
+        }
+    )
+    def get(self,request):
+        user = VaccinationOrg.objects.get(username = request.user.username)
+        return Response({
+            "phone" : user.phone,
+            "centre_name" : user.centre_name,
+            "is_available" : user.is_available,
+            "org_description" : user.org_description,
+            "vaccines_available" : user.vaccines_available,
+            "price" : user.price,
+            "city" : user.city,
+            "country" : user.country
+        },status.HTTP_200_OK)
 
 
 class PatientImageCheckView(APIView):
