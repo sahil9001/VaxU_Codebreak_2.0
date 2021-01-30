@@ -19,7 +19,7 @@ Our solution will help the health authorities for quick, secure and efficient va
 * Cough based covid detection test
 * Vaccine schedulling module
 * Social distancing monitor
-* Total solution in one
+* Total covid solution in one
 
 ## Technology Stack
 
