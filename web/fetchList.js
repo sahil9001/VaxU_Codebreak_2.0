@@ -17,15 +17,15 @@ $(document).ready(function(){
 
     })
     $.ajax({
-        url: "http://20.198.3.123/api/users/vaccinators/",
+        url: "http://20.198.3.123/api/core/",
         type: 'get',
         datatype: 'json',
         crossDomain: true,
         
         headers: {"Authorization": localStorage.getItem('token')},
         success: function(res){
-            console.log(res[0]);
-            const vc = res[0]['vaccines_available'];
+           
+            const vc = res['vaccines_available'];
             var vic = document.getElementById("vis");
             vic.innerText = vc;
             // var users = document.getElementById("newUsers");
